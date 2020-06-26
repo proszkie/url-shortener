@@ -15,5 +15,5 @@ public class UrlsMapping {
     private final Url longUrl;
 
     @NonNull
-    private final Url shortenedUrl;
+    private final String shortenedUrlPath;
 }

@@ -1,5 +1,8 @@
 package pl.proszkie.urlshortener;
 
+import lombok.NonNull;
+import pl.proszkie.urlshortener.db.UrlsRepository;
+
 public class UrlShortenerFacade {
 
     private final InputParameters inputParameters;
@@ -23,7 +26,7 @@ public class UrlShortenerFacade {
 
         final UrlsMapping urlsMapping = UrlsMapping.builder()
                 .longUrl(urlToShorten)
-                .shortenedUrl(shortenedUrl)
+                .shortenedUrlPath(shortenedUrl.getPath())
                 .build();
 
         urlsRepository.save(urlsMapping);
@@ -31,8 +34,8 @@ public class UrlShortenerFacade {
         return shortenedUrl;
     }
 
-    public Url getOriginalUrl(final Url shortenedUrl) {
-        return urlsRepository.findByShortenedUrl(shortenedUrl)
-                .orElseThrow(() -> new UrlNotFoundException(shortenedUrl));
+    public Url getOriginalUrlByPath(@NonNull final String path) {
+        return urlsRepository.findByShortenedUrlPath(path.replaceAll("/", ""))
+                .orElseThrow(() -> new UrlNotFoundException(path));
     }
 }

@@ -13,11 +13,11 @@ public class Url {
     @Getter
     private URL url;
 
-    Url(final String protocol, final String host, final int port, final String path){
+    public Url(final String protocol, final String host, final int port, final String path){
         this(protocol + host + ":" + port + "/" + path);
     }
 
-    Url(final String url) {
+    public Url(final String url) {
         //localhost is discriminated here
         if(UrlValidator.getInstance().isValid(url)){
             try {
@@ -30,7 +30,7 @@ public class Url {
         }
     }
 
-    String getWhole() {
-        return url.toExternalForm();
+    String getPath() {
+        return this.url.getPath().replaceAll("/", "");
     }
 }
