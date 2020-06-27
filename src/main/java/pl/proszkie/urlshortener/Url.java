@@ -30,7 +30,7 @@ public class Url {
         }
     }
 
-    String getPath() {
+    public String getPath() {
         return this.url.getPath().replaceAll("/", "");
     }
 }

@@ -1,8 +1,7 @@
 package pl.proszkie.urlshortener.api;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +15,7 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200") //for testing purpose
 @RequestMapping("/v1")
 public class HttpUrlShortenerApi implements UrlShortenerApi {
 
@@ -24,19 +24,15 @@ public class HttpUrlShortenerApi implements UrlShortenerApi {
 
     @Override
     @PostMapping(value = "/shorten")
-    public String shortenUrl(@RequestBody final UrlDto urlToShorten) {
-        Url url = new Url(URLDecoder.decode(urlToShorten.getUrlToShorten(), Charset.defaultCharset()));
+    public UrlDto shortenUrl(@RequestBody final UrlDto urlToShorten) {
+        Url url = new Url(URLDecoder.decode(urlToShorten.getUrl(), Charset.defaultCharset()));
 
-        return urlShortenerFacade.shorten(url)
-                .getUrl()
-                .toExternalForm();
+        return new UrlDto(urlShortenerFacade.shorten(url));
     }
 
     @Override
     @GetMapping("/{path}")
-    public String getOriginalUrl(@PathVariable final String path) {
-        return urlShortenerFacade.getOriginalUrlByPath(path)
-                .getUrl()
-                .toExternalForm();
+    public UrlDto getOriginalUrl(@PathVariable final String path) {
+        return new UrlDto(urlShortenerFacade.getOriginalUrlByPath(path));
     }
 }
