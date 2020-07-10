@@ -3,6 +3,7 @@ package pl.proszkie.urlshortener;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import java.net.MalformedURLException;
@@ -17,17 +18,34 @@ public class Url {
         this(protocol + host + ":" + port + "/" + path);
     }
 
-    public Url(final String url) {
+    public Url(@NonNull final String url) {
         //localhost is discriminated here
-        if(UrlValidator.getInstance().isValid(url)){
+        String transformedUrl = transformUrl(url);
+        validate(url, transformedUrl);
+    }
+
+    private void validate(final String url, final String transformedUrl) {
+        if(UrlValidator.getInstance().isValid(transformedUrl)){
             try {
-                this.url = new URL(url);
+                this.url = new URL(transformedUrl);
             } catch (MalformedURLException e) {
                 throw new InvalidUrlException(url);
             }
         }else {
             throw new InvalidUrlException(url);
         }
+    }
+
+    private String transformUrl(final String url) {
+        StringBuilder urlBuilder = new StringBuilder();
+
+        if(!url.startsWith("http://") && !url.startsWith("https://")){
+            urlBuilder.append("http://");
+        }
+
+        urlBuilder.append(url);
+
+        return urlBuilder.toString();
     }
 
     public String getPath() {

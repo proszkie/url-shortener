@@ -12,10 +12,16 @@ class UrlTest extends Specification {
         noExceptionThrown()
 
         where:
-        stringUrl << ["http://www.google.com", "https://www.google.com", "http://google.com", "https://google.com", "http://google.pl"]
+        stringUrl << ["http://www.google.com",
+                      "www.google.com",
+                      "google.com",
+                      "https://www.google.com",
+                      "http://google.com",
+                      "https://google.com",
+                      "http://google.pl"]
     }
 
-    def "should fail when given valid Url"(){
+    def "should fail when given invalid Url"(){
         when:
         Url url = new Url(stringUrl)
 
@@ -23,6 +29,6 @@ class UrlTest extends Specification {
         thrown(InvalidUrlException)
 
         where:
-        stringUrl << ["htt://www.google.com", "www.google.com", "google.com", "https://google", "google", "http://www.google.comaaa"]
+        stringUrl << ["htt://www.google.com", "https://google", "google", "http://www.google.comaaa"]
     }
 }

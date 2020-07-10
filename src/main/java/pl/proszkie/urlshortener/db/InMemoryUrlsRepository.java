@@ -6,10 +6,11 @@ import pl.proszkie.urlshortener.UrlsMapping;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryUrlsRepository implements UrlsRepository {
 
-    Map<String, Url> mapping = new HashMap<>();
+    Map<String, Url> mapping = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Url> findByShortenedUrlPath(final String shortenedUrl) {
