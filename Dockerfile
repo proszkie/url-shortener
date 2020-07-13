@@ -22,4 +22,4 @@ WORKDIR /home/application
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 
 EXPOSE 8080
-CMD java -jar -DshortenerHost=url-shortener-dev.eu-west-1.elasticbeanstalk.com /app/app.jar
+CMD java -jar -DshortenerHost=url-shortener-dev.eu-west-1.elasticbeanstalk.com -DshortenerFrontend=url-shortener-front.s3-website-us-west-2.amazonaws.com /app/app.jar

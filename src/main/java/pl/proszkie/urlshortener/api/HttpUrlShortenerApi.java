@@ -15,7 +15,6 @@ import java.net.URLDecoder;
 import java.nio.charset.Charset;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200") //for testing purpose
 @RequestMapping("/v1")
 public class HttpUrlShortenerApi implements UrlShortenerApi {
 
