@@ -27,4 +27,8 @@ public class InputParameters {
     @org.springframework.beans.factory.annotation.Value("${shortenerProtocol}")
     @NonNull
     private String shortenerProtocol;
+
+    @org.springframework.beans.factory.annotation.Value("${shortenerFrontend}")
+    @NonNull
+    private String shortenerFrontend;
 }

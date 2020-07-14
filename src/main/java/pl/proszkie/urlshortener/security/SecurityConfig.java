@@ -5,19 +5,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import pl.proszkie.urlshortener.InputParameters;
 
 @Configuration
 public class SecurityConfig {
 
-    @Value("shortenerFrontend")
-    private String shortenerFrontend;
-
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
+    public WebMvcConfigurer corsConfigurer(InputParameters inputParameters) {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins(shortenerFrontend);
+                registry.addMapping("/**").allowedMethods("GET", "POST");
             }
         };
 
